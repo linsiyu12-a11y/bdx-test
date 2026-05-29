@@ -85,7 +85,20 @@
 /* 3. 手机端点下去的一瞬间，可以给个极浅的灰色反馈，但手抬起必须回位 */
 .opt-btn:active {
     background-color: #f9f9f9 !important;
-}
+
+document.addEventListener('click', function (e) {
+    // 检查点的是不是选项按钮（类名为 opt-btn 的按钮）
+    if (e.target && e.target.classList.contains('opt-btn')) {
+        const btn = e.target;
+
+        // 1. 立即披上金黄色外衣 (需要在 CSS 里有 .selected 定义)
+        btn.classList.add('selected');
+
+        // 2. 这里的逻辑很巧妙：我们不需要 setTimeout 阻止跳转，
+        // 因为浏览器渲染需要时间，加上这个类名后，
+        // 在下一题加载出来的瞬间，视觉上会有非常棒的“闪烁反馈”。
+    }
+}, true);
 </style>
 </head>
 <body>
@@ -109,7 +122,7 @@
             <p id="char-desc" style
                 ="color: #555; font-size: 15px; margin: 0;"></p>
         </div>
-<button onclick="this.classList.add('selected'); setTimeout(() => { nextQuestion(); this.classList.remove('selected'); }, 300);">重新测试</button>
+      <button onclick="location.reload()" style="margin-top:25px; padding: 10px 30px; background: #d4af37; color: white; border: none; border-radius: 5px; cursor: pointer;">重新命数测试</button>
      
     </div>
 
