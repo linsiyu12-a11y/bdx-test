@@ -87,16 +87,37 @@
         <div style="text-align: left; background: #fafafa; padding: 20px; border-radius: 10px; line-height: 1.8; margin-top: 20px;">
             <p id="char-desc" style="color: #555; font-size: 15px; margin: 0;"></p>
         </div>
-        <button onclick="location.reload()" style="margin-top:25px; padding: 10px 30px; background: #d4af37; color: white; border: none; border-radius: 5px; cursor: pointer;">重新命数测试</button>
-      button:focus, 
-button:active {
+       button {
+    /* 这里保留你原本的样式（比如背景色、圆角等） */
+    
+    /* 核心补丁：彻底关掉手机端点击时那个烦人的黄色/蓝色高亮色块 */
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+
+    /* 移除所有点击后的外框线和阴影 */
     outline: none !important;
-    -webkit-tap-highlight-color: transparent; /* 专门针对手机端的点击高亮 */
+    box-shadow: none !important;
+}
+
+/* 移除聚焦状态（通过键盘或点击产生的残留框） */
+button:focus, 
+button:active, 
+button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    /* 强制让它保持你设定的背景色，不许变黄 */
+    background-color: inherit; 
+}
+
+/* 专门对付手机点完后颜色“卡死”在 hover 状态的问题 */
 @media (hover: none) {
     button:hover {
-        background-color: initial; /* 防止手指点完后，颜色停留在 hover 状态 */
+        /* 在手机上，手指离开后，按钮应该变回原来的透明或背景色 */
+        background-color: transparent !important; 
+        color: inherit !important;
     }
-}
 }
     </div>
 
