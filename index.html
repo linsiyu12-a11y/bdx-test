@@ -457,8 +457,7 @@ window.onload = function() {
         // 渲染结果页面
         if (finalChar) {
             document.getElementById('char-name').innerText = finalChar.name;
-            document.getElementById('sub-cn').innerText = mbti; 
-            document.getElementById('sub-en').innerText = "Destiny Fate";
+            document.getElementById("sub-cn").innerText = finalChar.desc;
             document.getElementById('char-desc').innerText = finalChar.desc;
             document.getElementById('char-img').src = "image/"+finalChar.img;
         }
