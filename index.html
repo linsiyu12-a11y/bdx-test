@@ -51,71 +51,34 @@
     #char-img { width: 100%; height: 100%; object-fit: cover; }
 
     .opt-btn {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 10px;
-    background-color: white !important; /* 强制背景永远是白 */
-    color: #333 !important;            /* 强制文字永远是深灰，不许变蓝 */
-    border: 1px solid #d4af37;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: left;
-    display: block;
-    transition: none !important;      /* 关掉动画，防止手机端反应迟钝 */
-    
-    /* 彻底关掉手机端点击时的自带高亮 */
-    -webkit-tap-highlight-color: transparent !important;
-    outline: none !important;
-}
-    .opt-btn.selected {
-    background-color: #d4af37 !important;
-    color: white !important;
-    border-color: #d4af37 !important;
-}
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 10px;
+        background-color: white; /* 移除了 !important */
+        color: #333 !important;
+        border: 1px solid #d4af37;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: left;
+        display: block;
+        transition: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+        outline: none !important;
+    }
 
-/* 2. 只有在电脑端鼠标挪上去时，才允许变色 */
-@media (hover: hover) {
-    .opt-btn:hover {
+    /* 点击后的金色状态 */
+    .opt-btn.selected {
         background-color: #d4af37 !important;
         color: white !important;
     }
-}
 
-/* 3. 手机端点下去的一瞬间，可以给个极浅的灰色反馈，但手抬起必须回位 */
-.opt-btn:active {
-    background-color: #f9f9f9 !important;
-
-document.addEventListener('click', function (e) {
-    // 检查点的是不是选项按钮（类名为 opt-btn 的按钮）
-    if (e.target && e.target.classList.contains('opt-btn')) {
-        const btn = e.target;
-
-        // 1. 立即披上金黄色外衣 (需要在 CSS 里有 .selected 定义)
-        btn.classList.add('selected');
-
-        // 2. 这里的逻辑很巧妙：我们不需要 setTimeout 阻止跳转，
-        // 因为浏览器渲染需要时间，加上这个类名后，
-        // 在下一题加载出来的瞬间，视觉上会有非常棒的“闪烁反馈”。
+    @media (hover: hover) {
+        .opt-btn:hover {
+            background-color: #d4af37 !important;
+            color: white !important;
+        }
     }
-}, true);
-    
-    button.onclick = () => {
-    // 1. 立即给当前点击的按钮加上“selected”这个装修风格
-    button.classList.add("selected");
-
-    // 2. 使用 setTimeout 让浏览器“等一会儿”再执行后面的逻辑
-    setTimeout(() => {
-        // --- 这里放你原本的处理分数和切换题目的逻辑 ---
-        // 比如：
-        // currentQuestion++; 
-        // if (currentQuestion < questions.length) { renderQuestion(); } 
-        // else { showFinalResult(); }
-        
-        // 跳转前记得把这个颜色类去掉，防止下一题位置重合时残留颜色
-        button.classList.remove("selected");
-    }, 300); // 300毫秒（0.3秒）是黄金时间，既有反馈感又不会觉得卡顿
-};
 </style>
 </head>
 <body>
@@ -136,13 +99,10 @@ document.addEventListener('click', function (e) {
         </div>
         <div class="char-img-container"><img id="char-img" src="" alt="角色图片"></div>
         <div style="text-align: left; background: #fafafa; padding: 20px; border-radius: 10px; line-height: 1.8; margin-top: 20px;">
-            <p id="char-desc" style
-                ="color: #555; font-size: 15px; margin: 0;"></p>
+            <p id="char-desc" style="color: #555; font-size: 15px; margin: 0;"></p>
         </div>
-      <button onclick="location.reload()" style="margin-top:25px; padding: 10px 30px; background: #d4af37; color: white; border: none; border-radius: 5px; cursor: pointer;">重新命数测试</button>
-    
+        <button onclick="location.reload()" style="margin-top:25px; padding: 10px 30px; background: #d4af37; color: white; border: none; border-radius: 5px; cursor: pointer;">重新命数测试</button>
     </div>
-
 <script>
     const W = { E: 20000000, I: 10000000, N: 200000, S: 100000, T: 2000, F: 1000, P: 20, J: 10 };
     let counts = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, P: 0, J: 0 }; 
