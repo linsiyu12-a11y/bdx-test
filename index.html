@@ -61,15 +61,21 @@
         cursor: pointer;
         font-size: 16px;
         text-align: left;
-        transition: 0.3s;
-    }
-
+     transition: all 0.2s;
+    /* 核心补丁：彻底关掉手机端点击时的高亮色块 */
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+}
     .opt-btn:hover { background-color: #d4af37; color: white; }
     .opt-btn {
     -webkit-tap-highlight-color: transparent !important;
     outline: none !important;
 }
-
+@media (hover: hover) {
+    .opt-btn:hover {
+        background-color: #d4af37 !important;
+        color: white !important;
+    }
 /* 关键：在触屏设备上，强制让按钮点完后不准变黄 */
 @media (hover: none) {
     .opt-btn:hover, .opt-btn:active, .opt-btn:focus {
