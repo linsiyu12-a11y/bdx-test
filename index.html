@@ -373,31 +373,41 @@ window.onload = function() {
             const btn = document.createElement('button');
             btn.className = 'opt-btn';
             btn.innerText = opt.t;
+            
             btn.onclick = () => {
-                // 维度拆解
-                if (opt.v && opt.v > 0) {
-                    let val = opt.v;
-                    if (val >= 20000000) counts.E++; else if (val >= 10000000) counts.I++;
-                    val %= 10000000;
-                    if (val >= 200000) counts.N++; else if (val >= 100000) counts.S++;
-                    val %= 100000;
-                    if (val >= 2000) counts.T++; else if (val >= 1000) counts.F++;
-                    val %= 1000;
-                    if (val >= 20) counts.P++; else if (val >= 10) counts.J++;
-                }
+                // --- 1. 点击视觉反馈：变金黄色 ---
+                btn.classList.add('selected');
 
-                if (opt.e !== undefined) energyScore += opt.e;
-                if (opt.specialLogic === "Q19_B") isSpecial_DaoWuJi = true;
+                // --- 2. 延迟 300 毫秒后处理所有逻辑 ---
+                setTimeout(() => {
+                    // 维度拆解计算
+                    if (opt.v && opt.v > 0) {
+                        let val = opt.v;
+                        if (val >= 20000000) counts.E++; else if (val >= 10000000) counts.I++;
+                        val %= 10000000;
+                        if (val >= 200000) counts.N++; else if (val >= 100000) counts.S++;
+                        val %= 100000;
+                        if (val >= 2000) counts.T++; else if (val >= 1000) counts.F++;
+                        val %= 1000;
+                        if (val >= 20) counts.P++; else if (val >= 10) counts.J++;
+                    }
 
-                if (opt.isEnd) {
-                    showFinalResult();
-                } else if (opt.next !== undefined) {
-                    currentStep = opt.next;
-                    renderQuestion();
-                } else {
-                    currentStep++;
-                    renderQuestion();
-                }
+                    if (opt.e !== undefined) energyScore += opt.e;
+                    
+                    // 触发特殊伏笔：第19题B选项
+                    if (opt.specialLogic === "Q19_B") isSpecial_DaoWuJi = true;
+
+                    // 题目跳转逻辑
+                    if (opt.isEnd) {
+                        showFinalResult();
+                    } else if (opt.next !== undefined) {
+                        currentStep = opt.next;
+                        renderQuestion();
+                    } else {
+                        currentStep++;
+                        renderQuestion();
+                    }
+                }, 300); // 停顿0.3秒
             };
             container.appendChild(btn);
         });
@@ -419,12 +429,16 @@ window.onload = function() {
         let mbti = getMBTIType();
         let finalChar = null;
 
-        // 特殊角色拦截
+        // --- 核心逻辑：特殊角色拦截 ---
         if (isSpecial_DaoWuJi) {
-            finalChar = characterDB["HIDDEN-DAOWUJI"][0];
-        } else if (mbti === "INTJ" && energyScore <= 2) {
-            finalChar = characterDB["HIDDEN-FUYING"][0];
+            // E人是刀无极，否则（I人）是伏婴师
+            if (mbti.startsWith("E")) {
+                finalChar = characterDB["HIDDEN-DAOWUJI"][0];
+            } else {
+                finalChar = characterDB["HIDDEN-FUYING"][0];
+            }
         } else {
+            // 普通 MBTI 分数逻辑
             let level = energyScore >= 5 ? "高" : (energyScore <= 2 ? "低" : "中");
             let key = `${mbti}-${level}`;
             let candidates = characterDB[key] || characterDB[`${mbti}-中`]; 
@@ -440,38 +454,15 @@ window.onload = function() {
             }
         }
 
-        // --- 核心渲染：处理抬头、副标题中文/英文 ---
-      if (finalChar) {
+        // 渲染结果页面
+        if (finalChar) {
             document.getElementById('char-name').innerText = finalChar.name;
-            document.getElementById('char-img').src = "image/"+finalChar.img;
-
-            // 修正：兼容性拆分逻辑
-            // 无论你用的是 - 还是 —，都统一处理
-            let rawDesc = finalChar.desc.replace(/-/g, '—'); 
-            let parts = rawDesc.split('—'); 
-
-            if (parts.length >= 3) {
-                // 标准格式：中文标题—英文标题—内容
-                document.getElementById('sub-cn').innerText = parts[0].trim();
-                document.getElementById('sub-en').innerText = parts[1].trim();
-                document.getElementById('char-desc').innerText = parts.slice(2).join('—').trim();
-            } else if (parts.length === 2) {
-                // 只有两段的情况：标题—内容
-                document.getElementById('sub-cn').innerText = parts[0].trim();
-                document.getElementById('sub-en').innerText = ""; // 英文留空
-                document.getElementById('char-desc').innerText = parts[1].trim();
-            } else {
-                // 完全没分割符的情况
-                document.getElementById('sub-cn').innerText = "";
-                document.getElementById('sub-en').innerText = "";
-                document.getElementById('char-desc').innerText = finalChar.desc;
-            }
+            document.getElementById('sub-cn').innerText = mbti; 
+            document.getElementById('sub-en').innerText = "Destiny Fate";
+            document.getElementById('char-desc').innerText = finalChar.desc;
+            document.getElementById('char-img').src = finalChar.img;
         }
     }
-
-    window.onload = function() {
-        renderQuestion();
-    };
 </script>
 </body>
 </html>
