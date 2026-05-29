@@ -88,6 +88,16 @@
             <p id="char-desc" style="color: #555; font-size: 15px; margin: 0;"></p>
         </div>
         <button onclick="location.reload()" style="margin-top:25px; padding: 10px 30px; background: #d4af37; color: white; border: none; border-radius: 5px; cursor: pointer;">重新命数测试</button>
+      button:focus, 
+button:active {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent; /* 专门针对手机端的点击高亮 */
+@media (hover: none) {
+    button:hover {
+        background-color: initial; /* 防止手指点完后，颜色停留在 hover 状态 */
+    }
+
+}
     </div>
 
 <script>
