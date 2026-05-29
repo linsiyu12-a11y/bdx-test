@@ -99,6 +99,23 @@ document.addEventListener('click', function (e) {
         // 在下一题加载出来的瞬间，视觉上会有非常棒的“闪烁反馈”。
     }
 }, true);
+    
+    button.onclick = () => {
+    // 1. 立即给当前点击的按钮加上“selected”这个装修风格
+    button.classList.add("selected");
+
+    // 2. 使用 setTimeout 让浏览器“等一会儿”再执行后面的逻辑
+    setTimeout(() => {
+        // --- 这里放你原本的处理分数和切换题目的逻辑 ---
+        // 比如：
+        // currentQuestion++; 
+        // if (currentQuestion < questions.length) { renderQuestion(); } 
+        // else { showFinalResult(); }
+        
+        // 跳转前记得把这个颜色类去掉，防止下一题位置重合时残留颜色
+        button.classList.remove("selected");
+    }, 300); // 300毫秒（0.3秒）是黄金时间，既有反馈感又不会觉得卡顿
+};
 </style>
 </head>
 <body>
